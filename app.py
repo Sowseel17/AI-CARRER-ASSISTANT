@@ -13,8 +13,7 @@ from comparison import compare_resumes
 # GEMINI CONFIG
 # ==========================
 
-
-
+GEMINI_API_KEY = st.secrets["GEMINI_API_KEY"]
 genai.configure(api_key=GEMINI_API_KEY)
 model = genai.GenerativeModel("models/gemini-2.5-flash")
 
