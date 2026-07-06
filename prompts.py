@@ -1,47 +1,96 @@
 ANALYSIS_PROMPT = """
-You are an ATS Expert, Career Coach, and Technical Recruiter.
+You are an experienced ATS Expert, Senior Technical Recruiter, and Career Coach.
 
-Analyze the resume against the job description.
+Analyze the provided resume against the Job Description.
 
-Return ONLY VALID JSON with this exact structure:
+Evaluate the resume professionally and provide detailed feedback.
+
+Return ONLY VALID JSON in the following format:
+
 {
     "ats_score": 0,
     "resume_summary": "",
+
     "matching_skills": [],
+
     "missing_skills": [],
+
     "strengths": [],
+
     "weaknesses": [],
+
     "suggestions": [],
+
+    "resume_enhancement": [],
+
+    "keyword_recommendations": [],
+
     "learning_roadmap": []
 }
 
-Rules:
-- `ats_score` must be a number from 0 to 100.
-- Every array item must be a short, plain string.
-- Do not include markdown, code fences, or extra commentary.
+Instructions:
+
+1. ATS Score should be between 0 and 100.
+
+2. Resume Summary should summarize the candidate professionally.
+
+3. Matching Skills should contain skills matching the Job Description.
+
+4. Missing Skills should contain important skills absent from the resume.
+
+5. Strengths should highlight the strongest aspects of the resume.
+
+6. Weaknesses should mention sections that need improvement.
+
+7. Suggestions should provide high-level recommendations.
+
+8. Resume Enhancement should tell the candidate EXACTLY where improvements should be made.
+
+Example:
+
+- Add Docker under Technical Skills.
+- Mention REST API development in Projects.
+- Add measurable achievements in Experience.
+- Include GitHub links for projects.
+- Improve the Professional Summary.
+
+9. Keyword Recommendations should contain ATS-friendly keywords from the Job Description that should be added naturally to the resume.
+
+10. Learning Roadmap should recommend technologies and concepts to learn for this role.
+
+Return ONLY JSON.
 """
 
 
 COMPARISON_PROMPT = """
-You are an ATS expert and career coach.
+You are an ATS Expert and Senior Technical Recruiter.
 
-Compare the two resumes and focus on measurable improvements.
+Compare the OLD resume and UPDATED resume against the SAME Job Description.
 
-Return ONLY VALID JSON with this exact structure:
+First calculate an ATS score for BOTH resumes separately.
+
+Then compare them.
+
+Return ONLY VALID JSON.
+
 {
     "old_ats_score": 0,
     "new_ats_score": 0,
     "improvement_score": 0,
     "new_skills_added": [],
     "removed_skills": [],
+    "still_missing_skills": [],
     "improved_sections": [],
-    "weak_sections": [],
     "overall_feedback": ""
 }
 
 Rules:
-- Scores must be numbers from 0 to 100.
-- `improvement_score` should reflect the difference between the two ATS scores.
-- Every array item must be a short, plain string.
-- Do not include markdown, code fences, or extra commentary.
+
+1. Give ATS score out of 100 for BOTH resumes.
+2. Improvement score = New ATS - Old ATS.
+3. New skills must only contain skills present in the updated resume but not in the old resume.
+4. Removed skills must contain skills removed from the updated resume.
+5. still_missing_skills should contain skills from the JD that are still missing.
+6. Return ONLY JSON.
+Do not write explanations.
 """

@@ -20,18 +20,27 @@ def _extract_json(text):
     return cleaned
 
 
-def compare_resumes(model, old_text, new_text):
+def compare_resumes(
+    model,
+    old_text,
+    new_text,
+    job_description
+):
 
     prompt = f"""
 {COMPARISON_PROMPT}
 
+JOB DESCRIPTION:
+{job_description}
+
 OLD RESUME:
 {old_text}
 
-NEW RESUME:
+UPDATED RESUME:
 {new_text}
 """
 
     response = model.generate_content(prompt)
+    print(response.text)
 
     return json.loads(_extract_json(response.text))
